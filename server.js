@@ -39,13 +39,8 @@ app.use(async (ctx) => {
   let method;
   if (ctx.request.method === "GET") ({ method } = ctx.request.query);
   else if (ctx.request.method === "POST") ({ method } = ctx.request.body);
-  
-  const response = {
-    success: true,
-    data: "",
-    status: 204
-  };
 
+  // all incoming data in ctx.request.query and ctx.request.body
   switch (method) {
     case "allTickets":
       
@@ -66,14 +61,9 @@ app.use(async (ctx) => {
 
       break;
     default:
-      response.status = 500;
-      response.success = false;
-      response.data = `Unknown method '${method}' in request parameters`;
+      ctx.response.body = `Server is working`;
   }
 
-
-  
-  ctx.body = JSON.stringify(response);
 });
 const port = process.env.PORT || 7070;
 const server = http.createServer(app.callback()).listen(port);
